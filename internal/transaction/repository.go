@@ -1,12 +1,14 @@
 package transaction
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Repository interface {
 	GetAll() []Transaction
 	GetByID(id uint) (Transaction, error)
 	Create(transaction *Transaction)
-	Delete(id uint)
+	Delete(id string) error
 }
 
 type repository struct {
@@ -22,8 +24,13 @@ func (r *repository) Create(t *Transaction) {
 }
 
 
-func (r *repository) Delete(id uint) {
-	r.database.Delete(&Transaction{}, id)
+func (r *repository) Delete(id string) error {
+	result := r.database.Delete(&Transaction{}, id)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
 }
 
 func (r *repository) GetAll() []Transaction {

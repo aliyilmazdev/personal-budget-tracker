@@ -1,12 +1,14 @@
 package transaction
 
-import "errors"
+import (
+	"errors"
+)
 
 type Service interface {
 	GetAll() ([]Transaction, error)
 	GetByID(id uint) (Transaction, error)
 	Create(transaction *Transaction)
-	Delete(id uint)
+	Delete(id string) error
 }
 
 type service struct {
@@ -21,8 +23,12 @@ func (s *service) Create(t *Transaction) {
 	s.repository.Create(t)
 }
 
-func (s *service) Delete(id uint) {
-	s.repository.Delete(id)
+func (s *service) Delete(id string) error{
+	err := s.repository.Delete(id)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *service) GetAll() ([]Transaction, error) {

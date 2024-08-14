@@ -2,10 +2,11 @@ package presenter
 
 import "github.com/gofiber/fiber/v2"
 
-func SuccessResponse(response interface{}) *fiber.Map {
+func SuccessResponse(response, msg interface{}) *fiber.Map {
 	return &fiber.Map{
 		"status": true,
 		"data": response,
+		"message": msg,
 	}
 }
 
