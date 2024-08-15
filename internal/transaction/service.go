@@ -6,7 +6,7 @@ import (
 
 type Service interface {
 	GetAll() ([]Transaction, error)
-	GetByID(id uint) (Transaction, error)
+	GetByID(id string) (Transaction, error)
 	Create(transaction *Transaction)
 	Delete(id string) error
 }
@@ -41,6 +41,11 @@ func (s *service) GetAll() ([]Transaction, error) {
 	return transactions, nil
 }
 
-func (s *service) GetByID(id uint) (Transaction, error) {
-	return s.repository.GetByID(id)
+func (s *service) GetByID(id string) (Transaction, error) {
+	t, err := s.repository.GetByID(id)
+	if err != nil {
+		return Transaction{}, err
+	}
+	return t, nil
+	
 }

@@ -10,5 +10,5 @@ func SetupTransactionRoutes(router fiber.Router, service Service) {
 	t.Get("/", GetTransactionsHandler(service))
 	t.Post("/", CreateTransactionHandler(service))
 	t.Delete("/:id", DeleteTransactionHandler(service))
-	//t.Get("/:transactionId", func(c *fiber.Ctx) error {})
+	t.Get("/:id", GetByIDTransactionHandler(service))
 }
